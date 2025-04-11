@@ -6,12 +6,9 @@ const express = require("express")
 // activate or tell app variable to be an express server
 const app = express()
 
+const router = express.Router()
 
 
-// start the web server... format: app.listen(portnumber,function)
-app.listen(3000,function() {
-    console.log("Listening on port 3000")
-})
 
 // making an api using routes
 // routes are used to handle browsers requests - look like urls - 
@@ -20,14 +17,23 @@ app.listen(3000,function() {
 
 // GET request when someone goes to http://localhost:3000/hello
 // when using a function in a route you almost always have a parm or handle a response and request
-app.get("/hello", function(req, res) {
-    res.send("<h1> Hello, Express!</h1>")
+
+
+router.get("/songs", function(req, res) {
+    // create object in get request
+    const song = {
+        title: "Uptown Funk",
+        artist: "Bruno Mars",
+        popularity: 10,
+        genre: ["funk", "boogie"]
+    }
+
+    //send object to frontend as json
+    res.json(song)
 })
 
+// all requests that ususally use an api start with /api...
+// so the url would be localhost:3000/api/songs
 
-// 
-app.get("/goodbye", function(req, res) {
-    res.send("<h1> Goodbye, Express!</h1>")
-})
-
-
+app.use("/api", router)
+app.listen(3000)
